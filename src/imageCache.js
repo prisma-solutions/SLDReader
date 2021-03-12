@@ -158,11 +158,13 @@ export function loadExternalGraphic(
  * @param {Array<object>} rules Array of SLD rule objects that pass the filter for a single feature.
  * @param {FeatureTypeStyle} featureTypeStyle The feature type style object for a layer.
  * @param {Function} imageLoadedCallback Function to call when an image has loaded.
+ * @param {Feature} feature {@link https://openlayers.org/en/latest/apidoc/module-ol_Feature-Feature.html|ol/Feature} feature for interpolating strings
  */
 export function processExternalGraphicSymbolizers(
   rules,
   featureTypeStyle,
-  imageLoadedCallback
+  imageLoadedCallback,
+  feature
 ) {
   // Walk over all symbolizers inside all given rules.
   // Dive into the symbolizers to find ExternalGraphic elements and for each ExternalGraphic,
@@ -177,6 +179,16 @@ export function processExternalGraphicSymbolizers(
           return;
         }
         const imageUrl = exgraphic.onlineresource;
+        // search image url for ${} placeholders and replace with feature property
+        const matches = imageUrl.match(/[^{}]*(?=\})/g);
+        if (matches) {
+          matches.forEach(match => {
+            const property = feature.get(match) || feature.get('meta')[match];
+            if (property) {
+              imageUrl.replace(match, property);
+            }
+          });
+        }
         const imageLoadingState = getImageLoadingState(imageUrl);
         if (!imageLoadingState) {
           // Start loading the image and set image load state on the symbolizer.
