@@ -178,7 +178,7 @@ export function processExternalGraphicSymbolizers(
         if (!exgraphic) {
           return;
         }
-        const imageUrl = exgraphic.onlineresource;
+        let imageUrl = exgraphic.onlineresource;
         // search image url for ${} placeholders and replace with feature property
         const matches = imageUrl.match(/[^{}]*(?=\})/g);
         if (matches) {
