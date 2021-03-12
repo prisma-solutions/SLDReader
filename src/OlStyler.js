@@ -144,7 +144,8 @@ export function createOlStyleFunction(featureTypeStyle, options = {}) {
     processExternalGraphicSymbolizers(
       rules,
       featureTypeStyle,
-      imageLoadedCallback
+      imageLoadedCallback,
+      feature
     );
 
     // Convert style rules to style rule lookup categorized by geometry type.
