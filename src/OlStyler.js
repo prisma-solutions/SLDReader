@@ -95,13 +95,13 @@ function getOlFeatureId(feature) {
 
 /**
  * @private
- * Extract a property value from an OpenLayers Feature.
+ * Extract a property or metaproperty value from an OpenLayers Feature.
  * @param {Feature} feature {@link https://openlayers.org/en/latest/apidoc/module-ol_Feature-Feature.html|ol/Feature}
  * @param {string} propertyName The name of the feature property to read.
  * @returns {object} Property value.
  */
 function getOlFeatureProperty(feature, propertyName) {
-  return feature.get(propertyName);
+  return feature.get(propertyName) || feature.get('meta')[propertyName];
 }
 
 /**
