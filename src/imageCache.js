@@ -185,7 +185,7 @@ export function processExternalGraphicSymbolizers(
           matches.forEach(match => {
             const property = feature.get(match) || feature.get('meta')[match];
             if (property) {
-              imageUrl.replace(match, property);
+              imageUrl = imageUrl.replace(match, property);
             }
           });
         }
